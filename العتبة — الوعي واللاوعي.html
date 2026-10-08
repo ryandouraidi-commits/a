@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>العتبة — الوعي واللاوعي</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Reem+Kufi:wght@400;700&display=swap">
+<style>
+:root{--abyss:#070a14;--tide:#0e1a33;--bone:#ebe6d8;--gold:#c9a45c;--teal:#3d8a96;--mute:#9aa3b8;--bg:var(--abyss);--fg:var(--bone);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#0b1020}}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:'Amiri','Times New Roman',serif;font-size:clamp(19px,1.5vw,23px);line-height:2.1;overflow-x:hidden}
+canvas#field{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main,header,footer{position:relative;z-index:1}
+h1,h2,h3,.k{font-family:'Reem Kufi','Amiri',sans-serif;font-weight:700;line-height:1.25;margin:0}
+.hero{height:100svh;display:grid;place-items:center;text-align:center;position:relative;overflow:hidden}
+.hero h1{font-size:clamp(64px,17vw,260px);letter-spacing:0;display:flex;gap:.25em;justify-content:center;flex-wrap:wrap}
+.hero h1 span.w{display:inline-flex;overflow:hidden;padding:.1em .02em}
+.hero h1 .c{display:inline-block;will-change:transform}
+.hero p{max-width:34ch;margin:1.2rem auto 0;color:var(--mute);font-size:clamp(18px,1.6vw,24px)}
+.water{position:absolute;left:0;right:0;top:58%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transform-origin:center}
+.below{position:absolute;inset:58% 0 0;background:linear-gradient(var(--tide),transparent);opacity:.7}
+.hero .in{position:relative;padding:0 5vw}
+.gauge{position:fixed;left:18px;top:50%;transform:translateY(-50%);z-index:5;height:40vh;width:2px;background:rgba(255,255,255,.12)}
+.gauge i{position:absolute;top:0;left:0;width:100%;height:0;background:var(--gold)}
+.gauge b{position:absolute;left:10px;top:0;font:700 13px 'Reem Kufi',sans-serif;color:var(--gold);white-space:nowrap}
+section.s{padding:clamp(90px,16vh,200px) 7vw;max-width:1280px;margin:auto}
+.s h2{font-size:clamp(40px,7vw,104px);margin-bottom:.5em}
+.s h3{font-size:clamp(26px,3vw,40px);color:var(--gold);margin:1.6em 0 .3em}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:2.5rem 4rem}
+.s p{margin:0 0 1.1em;max-width:62ch;color:#d9d5c8}
+.q{border-right:2px solid var(--gold);padding:.4em 1.4em;font-size:1.25em;color:var(--bone);margin:2em 0;max-width:46ch}
+.q small{display:block;color:var(--mute);font-size:.7em}
+.line{display:block;overflow:hidden}.line>span{display:block}
+.berg{position:relative;height:100svh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:4vw;padding:0 7vw;max-width:1400px;margin:auto}
+.berg svg{width:100%;height:84vh}
+.layers{position:relative;height:60vh}
+.layer{position:absolute;inset:0;opacity:0;display:flex;flex-direction:column;justify-content:center}
+.layer h2{font-size:clamp(34px,5vw,72px)}
+.layer p{max-width:44ch}
+.hz{height:100svh;overflow:hidden;position:relative}
+.track{position:absolute;right:0;top:0;height:100%;display:flex;align-items:center;gap:6vw;padding:0 10vw;width:max-content}
+.card{width:min(78vw,520px);flex:none;border:1px solid rgba(235,230,216,.18);padding:2.2rem;background:linear-gradient(160deg,rgba(14,26,51,.85),rgba(7,10,20,.6));backdrop-filter:blur(6px)}
+.card .y{font:700 clamp(46px,6vw,84px)/1 'Reem Kufi',sans-serif;color:var(--gold)}
+.card h3{margin:.3em 0;color:var(--bone)}
+.card p{font-size:.88em;line-height:1.9;margin:0;color:var(--mute)}
+.lens{position:relative;min-height:90svh;display:grid;place-items:center;padding:10vh 7vw;cursor:none;--x:50%;--y:50%}
+.lens .txt{font-family:'Reem Kufi',sans-serif;font-weight:700;font-size:clamp(30px,5.2vw,78px);line-height:1.5;max-width:20ch;text-align:center;position:relative}
+.lens .a{color:rgba(235,230,216,.9)}
+.lens .b{position:absolute;inset:0;color:var(--gold);-webkit-mask-image:radial-gradient(circle 150px at var(--x) var(--y),#000 55%,transparent 100%);mask-image:radial-gradient(circle 150px at var(--x) var(--y),#000 55%,transparent 100%);text-shadow:0 0 30px rgba(201,164,92,.5)}
+.lens small{position:absolute;bottom:8vh;color:var(--mute);font-size:16px}
+.refs{font-size:.8em;color:var(--mute)}.refs li{margin-bottom:.5em}
+footer{padding:12vh 7vw 8vh;text-align:center;color:var(--mute)}
+footer .k{font-size:clamp(34px,6vw,90px);color:var(--bone)}
+@media(max-width:800px){.berg{grid-template-columns:1fr;height:auto;padding:12vh 7vw}.berg svg{height:50vh}.layers{height:46vh}.gauge{display:none}.lens{cursor:auto}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+</style>
+</head>
+<body>
+<canvas id="field" aria-hidden="true"></canvas>
+<div class="gauge" aria-hidden="true"><i></i><b id="depth">السطح · ٠ م</b></div>
+
+<header class="hero">
+  <div class="below"></div><div class="water"></div>
+  <div class="in">
+    <h1 id="title" aria-label="الوعي واللاوعي">الوعي واللاوعي</h1>
+    <p id="sub">رحلة فلسفية في الجزء الظاهر من العقل، وفي الكتلة الغارقة التي تحمله</p>
+  </div>
+</header>
+
+<main>
+<section class="s" id="intro">
+  <h2 class="rv">مسألة العتبة</h2>
+  <div class="cols">
+    <div>
+      <p class="rv">يبدأ كل تفلسف عن العقل من واقعة بسيطة ومربكة: أنا أعلم أنني أفكر، لكنني لا أعلم كيف تتشكل فكرتي قبل أن تصل إلى الشعور. ما يظهر لي في لحظة الانتباه ليس العملية كلها، بل ناتجها النهائي، كالقمة التي ترتفع فوق الماء ولا تُظهر شيئًا من قاعدتها.</p>
+      <p class="rv">من هنا تنشأ المفارقة التأسيسية لهذا البحث: إذا كان الوعي هو الوسيط الذي نعرف به أنفسنا، فكيف نعرف ما يقع خارج الوعي؟ وإذا كان اللاوعي خارج المعرفة المباشرة، فبأي حق نثبت وجوده؟ إن الجواب الفلسفي لا يأتي من الملاحظة وحدها، بل من الاستدلال على الأثر: الزلة، والحلم، والعَرَض، والتفضيل الذي لا نجد له سببًا.</p>
+    </div>
+    <div>
+      <p class="rv">وتقتضي الدقة الأكاديمية أن نفرّق منذ البداية بين ثلاثة مستويات للكلمة. فـ«الوعي» قد يعني اليقظة مقابل النوم، وقد يعني الشعور بالموضوع مقابل الغفلة عنه، وقد يعني الوعي بالذات أي أن يصير الذهن موضوعًا لنفسه. وكل مستوى من هذه المستويات يستدعي لاوعيًا مختلفًا: لاوعي فسيولوجي، ولاوعي معرفي، ولاوعي دينامي بالمعنى الفرويدي.</p>
+      <div class="q rv">«الأنا ليست سيدة في بيتها».<small>فرويد، في وصف الجرح الثالث الذي أصاب غرور الإنسان</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="consciousness">
+  <h2 class="rv">الوعي: ما الذي نسمّيه حضورًا؟</h2>
+  <div class="cols">
+    <div>
+      <h3 class="rv">اليقين الديكارتي</h3>
+      <p class="rv">جعل ديكارت في «التأملات» (١٦٤١) من الشك المنهجي طريقًا إلى أول يقين، وهو أن الذات التي تشك لا يمكن أن تشك في أنها تشك. وبهذا صار الوعي أساسًا للمعرفة، وصارت الذات شفافة لنفسها من حيث المبدأ. وهذه الشفافية هي الفرضية التي سيقوّضها الفكر الحديث لاحقًا.</p>
+      <h3 class="rv">القصدية</h3>
+      <p class="rv">ورث هوسرل عن برنتانو فكرة أن الوعي دائمًا وعيٌ بشيء؛ فهو ليس وعاءً مغلقًا بل انفتاح على العالم. ومن ثمّ لا يُدرس الوعي بوصفه جوهرًا ساكنًا، بل بوصفه فعلًا يمنح المعنى. وقد نقل ميرلو-بونتي هذه الفكرة في «ظاهراتية الإدراك» (١٩٤٥) من الذهن المجرد إلى الجسد الحيّ، فصار الإدراك موقفًا جسديًا قبل أن يكون تمثيلًا ذهنيًا.</p>
+    </div>
+    <div>
+      <h3 class="rv">المشكلة الصعبة</h3>
+      <p class="rv">ميّز ديفيد تشالمرز (١٩٩٥) بين المشكلات «السهلة» التي تفسّر الوظائف كالانتباه والتقرير والتمييز، والمشكلة «الصعبة» التي تسأل لماذا يصاحب هذه الوظائف إحساس ذاتي أصلًا. فحتى لو عرفنا كل آليات الدماغ، يبقى السؤال عن الكيفية التي يكون بها الأمر هو هذا الأمر بالنسبة لصاحبه.</p>
+      <h3 class="rv">الكيفيات الذاتية</h3>
+      <p class="rv">وقد صاغ توماس ناغل هذه الفجوة في مقاله «كيف يكون المرء خفاشًا؟» (١٩٧٤)، محتجًّا بأن للوعي بُعدًا ذاتيًا لا تلتقطه الأوصاف الموضوعية الخارجية. وبذلك يتحدد الوعي بخاصيتين متلازمتين: المنظور الأول، والكيفية. وهما بالضبط ما يستعصي على اللغة الفيزيائية المحضة.</p>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="unconscious">
+  <h2 class="rv">اللاوعي: تاريخ فكرة غير مرئية</h2>
+  <div class="cols">
+    <div>
+      <p class="rv">لم يخترع فرويد اللاوعي، بل منحه نظامًا. فقبله تحدّث لايبنتس في «محاولات جديدة في الفهم الإنساني» عن «الإدراكات الصغيرة»، وهي انطباعات دقيقة لا ننتبه إليها فرادى، لكن مجموعها يصنع ما نعيشه؛ كما نسمع هدير البحر دون أن ندرك كل موجة على حدة.</p>
+      <p class="rv">ثم جاء شوبنهاور في «العالم إرادة وتمثلًا» (١٨١٨) فجعل الإرادة العمياء جوهر الوجود، وجعل العقل سطحًا يبرّر دوافع لا يتحكم بها. وتابعه نيتشه في اتهام الوعي بأنه عضو متأخر وهش، ينتج عن الحاجة إلى التواصل الاجتماعي أكثر مما ينتج عن ضرورة التفكير ذاته.</p>
+    </div>
+    <div>
+      <h3 class="rv">من الفرضية إلى النظرية</h3>
+      <p class="rv">وصف فرويد في «تفسير الأحلام» (١٩٠٠) الحلم بوصفه تحقيقًا مقنّعًا لرغبة مكبوتة، وبيّن أن اشتغاله يمرّ بآليتين هما التكثيف والإزاحة. ثم رسّخ في بحثه «اللاشعور» (١٩١٥) أن المكبوت ليس غيابًا للمعنى، بل معنى ممنوع من العبور. وفي «الأنا والهو» (١٩٢٣) انتقل إلى النموذج البنيوي المعروف: الهو والأنا والأنا الأعلى.</p>
+      <h3 class="rv">أبعد من الفرد</h3>
+      <p class="rv">وسّع يونغ المفهوم إلى «اللاوعي الجمعي»، أي طبقة مشتركة من الأنماط الأولية تتجلى في الأساطير والرموز. أما لاكان فأعاد قراءة فرويد لغويًا، وقال إن اللاوعي مبنيّ مثل لغة، وإن الرغبة تتحرك في سلسلة الدوال لا في مخزن عواطف مكبوتة.</p>
+    </div>
+  </div>
+</section>
+
+<section class="berg" id="berg">
+  <svg viewBox="0 0 400 600" aria-label="رسم لجبل الجليد النفسي">
+    <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ebe6d8"/><stop offset="1" stop-color="#3d8a96"/></linearGradient>
+    <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3d8a96"/><stop offset="1" stop-color="#0e1a33"/></linearGradient></defs>
+    <path id="tip" d="M200 40 L255 150 L300 200 L100 200 L150 130Z" fill="url(#g1)"/>
+    <line id="wl" x1="0" y1="200" x2="400" y2="200" stroke="#c9a45c" stroke-width="1.5"/>
+    <path id="mid" d="M100 200 L300 200 L335 320 L65 320Z" fill="url(#g2)" opacity=".85"/>
+    <path id="deep" d="M65 320 L335 320 L365 460 L260 570 L130 580 L40 470Z" fill="#0e1a33" stroke="#3d8a96" stroke-opacity=".5"/>
+  </svg>
+  <div class="layers">
+    <div class="layer"><h2>الشعور</h2><p>ما يحضر الآن أمام الانتباه: هو الأضيق والأوضح. وبحسب فرويد هو سطح الجهاز النفسي، وما نحسبه كل الذات ليس إلا واجهتها.</p></div>
+    <div class="layer"><h2>ما قبل الشعور</h2><p>ما ليس حاضرًا لكنه قابل للاستدعاء بيسر، كاسم صديق أو ذكرى مدرسة. وهو منطقة الرقابة الأولى التي تسمح للمحتوى بالمرور أو تردّه.</p></div>
+    <div class="layer"><h2>اللاشعور</h2><p>المكبوتات والدوافع والتمثيلات التي لا تدخل الوعي إلا متنكرة. تحكمها قوانين مختلفة: غياب النفي، وغياب الزمن، وتجاور المتناقضات.</p></div>
+  </div>
+</section>
+
+<section class="s" id="science">
+  <h2 class="rv">حين دخل المختبر</h2>
+  <div class="cols">
+    <div>
+      <p class="rv">لم يبقَ اللاوعي حكرًا على العيادة والفلسفة؛ فقد أثبتت تجارب الإدراك دون وعي، والتحضير الدلالي، والتعلّم الضمني، أن جزءًا واسعًا من السلوك يتشكل بمعلومات لا يقرّ بها صاحبها. وبهذا تحوّل اللاوعي من فرضية تأويلية إلى موضوع تجريبي، وإن كان بمعنى معرفي يخلو من الدلالة الدرامية الفرويدية.</p>
+    </div>
+    <div>
+      <p class="rv">وأشهر هذه التجارب تجربة بنجامين ليبت (١٩٨٣)، إذ لاحظ أن «جهد الاستعداد» الدماغي يسبق الشعور المعلن بقرار الحركة بمئات الأجزاء من الألف من الثانية. وقد فُسّرت النتيجة تفسيرات متعارضة، بين من رأى فيها إنكارًا للإرادة الحرة، ومن رأى فيها أن الوعي يحتفظ بدور الاعتراض والتعديل لا الابتداء.</p>
+    </div>
+  </div>
+</section>
+
+<section class="hz" id="hz">
+  <div class="track">
+    <div class="card"><div class="y">١٦٤١</div><h3>ديكارت</h3><p>الذات الواعية أساس اليقين، والعقل شفاف لنفسه. هذا هو الافتراض الذي سيبدأ منه كل نقد لاحق.</p></div>
+    <div class="card"><div class="y">١٧٠٤</div><h3>لايبنتس</h3><p>الإدراكات الصغيرة: عتبة الشعور متدرجة، وما لا نلحظه يعمل فينا على الدوام.</p></div>
+    <div class="card"><div class="y">١٨١٨</div><h3>شوبنهاور</h3><p>الإرادة العمياء تسبق العقل وتوجّهه، والتفكير غالبًا تبرير لاحق.</p></div>
+    <div class="card"><div class="y">١٩٠٠</div><h3>فرويد</h3><p>الحلم طريق ملكي إلى اللاوعي، والمكبوت يعود في الزلة والعَرَض والنكتة.</p></div>
+    <div class="card"><div class="y">١٩١٢</div><h3>يونغ</h3><p>الأنماط الأولية والاوعي الجمعي: الفرد يحمل ذاكرة نوعه الرمزية.</p></div>
+    <div class="card"><div class="y">١٩٤٥</div><h3>ميرلو-بونتي</h3><p>الوعي متجسّد؛ والجسد هو الوسيط الأول بين الذات والعالم، ومعرفته سابقة للتأمل.</p></div>
+    <div class="card"><div class="y">١٩٥٣</div><h3>لاكان</h3><p>اللاوعي مبنيّ كاللغة، والذات منقسمة بنيويًا بين ما تقوله وما يقوله فيها الدال.</p></div>
+    <div class="card"><div class="y">١٩٨٣</div><h3>ليبت</h3><p>الدماغ يبادر قبل أن يعلن الوعي القرار: سؤال الحرية يعود إلى المختبر.</p></div>
+  </div>
+</section>
+
+<section class="s" id="phenom">
+  <h2 class="rv">الظاهراتية والوجودية: وعيٌ بلا مركز خفي</h2>
+  <div class="cols">
+    <div>
+      <h3 class="rv">الزمن الداخلي عند هوسرل</h3>
+      <p class="rv">في دروسه عن الوعي الداخلي بالزمن بيّن هوسرل أن اللحظة الحاضرة ليست نقطة، بل بنية ثلاثية: انطباع أولي، واستبقاء لما مضى حالًا، واستشراف لما هو آتٍ. فنحن حين نسمع لحنًا لا نسمع نغمة معزولة، بل نسمعها محمّلة بما سبقها ومتجهة إلى ما يليها. وهذا الاستبقاء ليس تذكرًا إراديًا، بل نسيج سلبي يعمل قبل الانتباه.</p>
+      <p class="rv">ومن هنا تحدث هوسرل عن «التركيبات السلبية»، أي أنماط التجميع والتشابه والتداعي التي تُبنى بها التجربة دون أن نبنيها قصدًا. فالظاهراتية نفسها، وهي الفلسفة التي جعلت الوعي منطلقها، تعترف بأن أسفل الوعي طبقة تأسيسية تسبقه وتغذيه. وبذلك تلتقي من حيث لا تقصد بالتحليل النفسي.</p>
+    </div>
+    <div>
+      <h3 class="rv">سارتر: نقد اللاوعي الفرويدي</h3>
+      <p class="rv">رفض سارتر في «الوجود والعدم» (١٩٤٣) فكرة اللاوعي بصيغتها الفرويدية، محتجًّا بأن الرقابة التي تقرر ما يُكبت لا بد أن تعرف ما تكبته، وإلا فكيف تختار؟ فهي إذن واعية بما تُخفيه، ويعود اللاوعي إلى سوء نية. وسمّى هذه الظاهرة «الإيمان الزائف»: أن يكذب المرء على نفسه وهو يعلم، فيكون الكاذب والمكذوب عليه شخصًا واحدًا.</p>
+      <div class="q rv">«الوعي هو ما هو ليس هو، وليس ما هو هو».<small>صيغة سارتر لانفتاح الوعي ولا تطابقه مع نفسه</small></div>
+      <p class="rv">ويصعب الجزم بنجاح هذا النقد، إذ يرد فرويديون بأن الرقابة نفسها قد تكون عملية آلية لا تقتضي معرفة صريحة، كما يعمل الجهاز المناعي دون أن «يعرف» ما يحارب. وهكذا يبقى الخلاف خلافًا بين نموذجين للعقل: نموذج الشفافية الجزئية ونموذج الآلية المتدرجة.</p>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="depth-psy">
+  <h2 class="rv">أعماق النفس: فرويد ويونغ ولاكان تفصيلًا</h2>
+  <div class="cols">
+    <div>
+      <h3 class="rv">علم نفس الحياة اليومية</h3>
+      <p class="rv">في كتابه المنشور عام ١٩٠١ جمع فرويد أمثلة عن النسيان والخطأ في الكلام والكتابة والتصرفات العارضة، وذهب إلى أن هذه الهفوات ليست عشوائية، بل هي تسوية بين نيّتين متعارضتين: ما نريد قوله وما نمنع أنفسنا من قوله. فالزلّة هي لحظة يتسرب فيها المعنى الممنوع عبر الثغرة. وبالمنطق نفسه فسّر النكتة (١٩٠٥) بأنها اقتصاد في الجهد الذي تتطلبه الرقابة، فنضحك لأن الممنوع مرّ بحيلة.</p>
+      <p class="rv">ثم مضى في «ما وراء مبدأ اللذة» (١٩٢٠) إلى تصور صراع بين غريزة الحياة وغريزة الموت، أي ميل إلى الاستمرار وميل إلى العودة إلى اللاعضوي. وهذا التحول كشف أن اللاوعي ليس مخزنًا للرغبات الجنسية وحدها، بل ساحة لقوى متعارضة تعمل خلف ظهر الأنا.</p>
+      <h3 class="rv">الآليات الدفاعية</h3>
+      <p class="rv">وضعت آنا فرويد قائمة بالدفاعات التي يستعملها الأنا ليخفف القلق: الكبت، والإسقاط، والتبرير، والتسامي، والنكوص، والإنكار. ولا تعد هذه الدفاعات مرضية بذاتها، بل هي أدوات تكيف قد تصير سجنًا حين تتصلب. ومهمة العلاج هنا ليست محو الدفاع، بل توسيع قدرة الذات على احتمال ما كانت تهرب منه.</p>
+    </div>
+    <div>
+      <h3 class="rv">يونغ: الظل والتفرد</h3>
+      <p class="rv">يرى يونغ أن الشخصية تتكون من القناع، وهو الوجه الاجتماعي الذي نعرضه، والظل، وهو ما أنكرناه في أنفسنا، والذات، وهي المركز الأوسع من الأنا. وعملية «التفرد» عنده هي اندماج هذه المستويات تدريجيًا، بحيث لا يعيش الإنسان كما يُراد له، ولا يعيش كما يهرب منه.</p>
+      <p class="rv">وتبقى الأنماط الأولية موضع نقد علمي، إذ يرى كثيرون أن مفهومها مرن إلى حد يصعب اختباره. غير أن أثرها في الأنثروبولوجيا والأدب وعلم الرموز يبقى عميقًا، لأنها لفتت الانتباه إلى أن للبشر صورًا مشتركة تتكرر في الأساطير بصرف النظر عن الثقافات.</p>
+      <h3 class="rv">لاكان: المرآة والثلاثية</h3>
+      <p class="rv">في «مرحلة المرآة» يرى الطفل صورته فيتعرف إلى وحدة جسده، لكن هذا التعرف يقوم على صورة خارجية، فيولد الأنا من اغتراب أول. ثم قسّم لاكان التجربة إلى ثلاثة سجلات: الخيالي حيث الصور والتماهي، والرمزي حيث اللغة والقانون، والواقعي وهو ما يستعصي على التسمية. واللاوعي يتحرك في السجل الرمزي، حيث يتكلم «الآخر» فينا قبل أن نتكلم.</p>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="islamic">
+  <h2 class="rv">في التراث العربي الإسلامي: النفس قبل اللاوعي</h2>
+  <div class="cols">
+    <div>
+      <h3 class="rv">الرجل المعلّق عند ابن سينا</h3>
+      <p class="rv">في «كتاب النفس» من «الشفاء» يتخيل ابن سينا إنسانًا خُلق دفعة واحدة كاملًا، معلّقًا في هواء طلق، محجوب البصر، لا يحس بجسده ولا يلمس شيئًا. ثم يسأل: هل يثبت هذا الإنسان وجود ذاته؟ ويجيب بأنه يثبتها دون حاجة إلى الحواس، وبذلك تكون معرفة الذات سابقة على معرفة الجسد.</p>
+      <p class="rv">والفرق بين هذه التجربة وكوجيتو ديكارت أن ابن سينا يستعملها لإثبات جوهرية النفس وتميزها عن البدن، بينما يستعمل ديكارت الشك لتأسيس اليقين المعرفي. ويرى باحثون أن الصلة التاريخية بين الفكرتين لا تزال موضع بحث، وأن التشابه البنيوي لا يثبت التأثر وحده.</p>
+    </div>
+    <div>
+      <h3 class="rv">الغزالي: اليقظة التي بعدها يقظة</h3>
+      <p class="rv">في «المنقذ من الضلال» يروي الغزالي أنه شك حتى في المحسوسات، لأن النائم يرى في منامه ما يظنه حقيقة ثم يستيقظ فيعلم بطلانه. ثم يتساءل: ما يدريك أن يقظتك الحالية ليست كذلك، بحيث تكشف حالة أعلى أن ما تظنه عقلًا كان حلمًا؟ ولا يعني هذا ارتيابًا مجردًا، بل مدخلًا إلى خبرة ذوقية تتجاوز الحس والعقل معًا.</p>
+      <h3 class="rv">محاسبة النفس وتتبع الخواطر</h3>
+      <p class="rv">وفي التراث الأخلاقي الصوفي، ومنه الحارث المحاسبي، تقوم محاسبة النفس على مراقبة الخواطر والنيات، لا الأفعال فقط. وهي تدرّب الإنسان على النظر في الباعث الخفي وراء العمل الظاهر، كالرياء الدقيق الذي يتسلل إلى الطاعة. وهي بهذا المعنى تقترب من بعض مقاصد التحليل النفسي، وإن اختلفت المرجعية والغاية.</p>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="cogsci">
+  <h2 class="rv">العلوم المعرفية: خرائط الوعي المتنافسة</h2>
+  <div class="cols">
+    <div>
+      <h3 class="rv">الرؤية العمياء</h3>
+      <p class="rv">وصف وايسكرانتس (١٩٧٤) مرضى أصيبت قشرتهم البصرية الأولية فلم يعودوا يرون في جزء من المجال، ومع ذلك يشيرون إلى مواضع الأشياء فيه بدقة تفوق الصدفة. وهذه الظاهرة تعني أن التمييز البصري يمكن أن يجري دون تجربة بصرية معلنة، أي أن الوظيفة والتجربة قابلتان للانفصال.</p>
+      <h3 class="rv">وعي الوصول ووعي الظاهرة</h3>
+      <p class="rv">ميّز نيد بلوك (١٩٩٥) بين «وعي الوصول» وهو إتاحة المحتوى للتفكير والتقرير، و«الوعي الظاهراتي» وهو كيفية التجربة ذاتها. وقد يرى المرء أكثر مما يستطيع الإبلاغ عنه، كما في تجارب الذاكرة الأيقونية. ويبقى الخلاف قائمًا: هل الوعي الظاهراتي يفيض فعلًا عن الوصول، أم أننا نخلط هنا بين القدرة والتحقق؟</p>
+      <h3 class="rv">التفكير السريع والبطيء</h3>
+      <p class="rv">في «التفكير، سريعًا وبطيئًا» (٢٠١١) لخّص كانمان عقودًا من البحث في نظامين: نظام سريع تلقائي حدسي، ونظام بطيء متأنٍّ يتطلب جهدًا. وهذا ليس لاوعيًا فرويديًا، لكنه يؤكد أن معظم أحكامنا اليومية تنتج دون استدلال واعٍ، وأن الوعي يتدخل أحيانًا لتصحيح ما أنتجه الحدس.</p>
+    </div>
+    <div>
+      <h3 class="rv">المساحة العاملة الشاملة</h3>
+      <p class="rv">اقترح برنارد بارس (١٩٨٨) أن الدماغ يضم معالجات متخصصة كثيرة تعمل بالتوازي دون وعي، وأن المحتوى يصير واعيًا حين يُبثّ على نطاق واسع إلى سائر المعالجات عبر «مساحة عاملة» مشتركة. وطوّر ستانيسلاس ديهان وجان-بيير شانجو هذه الفكرة عصبيًا، فربطاها بـ«اشتعال» مفاجئ منسّق بين مناطق قشرية بعيدة.</p>
+      <h3 class="rv">نظرية المعلومات المتكاملة</h3>
+      <p class="rv">أما جوليو تونوني (٢٠٠٤) فبدأ من خصائص التجربة نفسها: أنها موحّدة ومحددة، وانطلق منها إلى شروط فيزيائية، ثم اقترح مقياسًا هو «فاي» لدرجة تكامل المعلومات في النظام. وتثير هذه النظرية جدلًا واسعًا لأن لوازمها قد تمنح الوعي لأنظمة بسيطة، ولأن اختبارها التجريبي صعب.</p>
+      <h3 class="rv">الاختلاق التفسيري</h3>
+      <p class="rv">وفي دراسة شهيرة (١٩٧٧) أظهر نيسبت وويلسون أن الناس يعرضون أسبابًا لسلوكهم لا تطابق العوامل الفعلية التي حركته، وأنهم يطبقون نظريات عامة عن أنفسهم كما يطبقونها على الغرباء. وهذه النتيجة تضعف الثقة بالاستبطان وتدعم فكرة أن الوعي يشبه المتحدث الرسمي أكثر مما يشبه صانع القرار.</p>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="synthesis">
+  <h2 class="rv">خلاصة تركيبية</h2>
+  <div class="cols">
+    <div>
+      <p class="rv">يمكن الآن تلخيص مسار هذا البحث في ثلاث دعاوى. الدعوى الأولى أن الوعي ليس شفافًا لنفسه، وهي نتيجة تلتقي عندها مدارس متباعدة كالتحليل النفسي وعلم النفس التجريبي والظاهراتية. والدعوى الثانية أن «اللاوعي» اسم لعدة ظواهر لا لواحدة، منها ما هو بيولوجي آلي، ومنها ما هو معرفي ضمني، ومنها ما هو دينامي ذو معنى.</p>
+    </div>
+    <div>
+      <p class="rv">والدعوى الثالثة أن السؤال الأهم ليس أين تقع الحدود، بل كيف تتواصل الطبقات. فالمعنى يمر من الأسفل إلى الأعلى في صورة حدس وانفعال ورمز، ومن الأعلى إلى الأسفل في صورة انتباه وتسمية وتأويل. ومن هذا التبادل تتكون الذات، لا بوصفها جوهرًا ثابتًا، بل عملية مستمرة من الترجمة بين ما نعيشه وما نستطيع قوله.</p>
+      <ul class="refs">
+        <li>فرويد، «علم نفس الحياة اليومية» (١٩٠١)، «النكتة وعلاقتها باللاشعور» (١٩٠٥)، «ما وراء مبدأ اللذة» (١٩٢٠).</li>
+        <li>سارتر، «الوجود والعدم» (١٩٤٣)؛ لاكان، «كتابات» (١٩٦٦).</li>
+        <li>ابن سينا، «الشفاء: كتاب النفس»؛ الغزالي، «المنقذ من الضلال».</li>
+        <li>بارس، «نظرية معرفية للوعي» (١٩٨٨)؛ تونوني (٢٠٠٤)؛ كانمان (٢٠١١)؛ نيسبت وويلسون (١٩٧٧).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="questions">
+  <h2 class="rv">أسئلة مفتوحة</h2>
+  <div class="cols">
+    <div>
+      <h3 class="rv">هل الحدّ بينهما حاد؟</h3>
+      <p class="rv">يميل الفكر المعاصر إلى رفض الثنائية الصارمة؛ فالوعي ليس مفتاحًا يعمل أو لا يعمل، بل طيف من الدرجات والأنماط. وما نسمّيه «لاوعيًا» قد يكون أنماطًا متعددة من المعالجة تختلف بحسب الإتاحة للتقرير اللفظي.</p>
+      <h3 class="rv">ما موقع الأخلاق؟</h3>
+      <p class="rv">إذا كانت دوافعنا تتشكل خارج الوعي، فما معنى المسؤولية؟ يجيب الفرويديون بأن المسؤولية تتسع لتشمل العمل على الذات، ويجيب آخرون بأنها قدرة على الاستجابة للأسباب مهما كان مصدرها.</p>
+    </div>
+    <div>
+      <h3 class="rv">هل نعرف أنفسنا؟</h3>
+      <p class="rv">أظهرت دراسات علم النفس الاجتماعي أن الناس يختلقون تفسيرات واثقة لسلوك لا يعرفون أسبابه الحقيقية، وهو ما يسمى «الاختلاق التفسيري». وهذا يعيدنا إلى سؤال ديكارت معكوسًا: لا شيء أقل يقينًا من معرفتنا المباشرة بأسباب أفعالنا.</p>
+      <h3 class="rv">مهمة التفلسف</h3>
+      <p class="rv">الفلسفة هنا ليست إخراج اللاوعي إلى الضوء كله، فذلك مستحيل بالتعريف، بل تعليم العقل أن يعرف حدوده، وأن يبقى يقظًا للعتبة التي يقف عليها كل لحظة.</p>
+    </div>
+  </div>
+</section>
+
+<section class="lens" id="lens">
+  <div class="txt" aria-label="أنا أعرف ما أريد">
+    <div class="a">أنا أعرف ما أريد</div>
+    <div class="b" aria-hidden="true">أم أن ما أريده يعرفني؟</div>
+  </div>
+  <small>حرّك المؤشر أو إصبعك لتكشف ما تحت السطح</small>
+</section>
+
+<section class="s" id="refs">
+  <h2 class="rv">مراجع للتوسع</h2>
+  <ul class="refs">
+    <li>ديكارت، «تأملات في الفلسفة الأولى» (١٦٤١).</li>
+    <li>لايبنتس، «محاولات جديدة في الفهم الإنساني» (نُشرت ١٧٦٥).</li>
+    <li>شوبنهاور، «العالم إرادة وتمثلًا» (١٨١٨).</li>
+    <li>فرويد، «تفسير الأحلام» (١٩٠٠)، «اللاشعور» (١٩١٥)، «الأنا والهو» (١٩٢٣).</li>
+    <li>هوسرل، «أفكار ممهدة لعلم الظاهريات الخالصة» (١٩١٣).</li>
+    <li>ميرلو-بونتي، «ظاهراتية الإدراك» (١٩٤٥).</li>
+    <li>ناغل، «كيف يكون المرء خفاشًا؟» (١٩٧٤)؛ تشالمرز، «مواجهة مشكلة الوعي» (١٩٩٥).</li>
+  </ul>
+</section>
+</main>
+
+<footer><div class="k">ما لا نراه يرانا</div><p>اصعد ببطء. السطح ينتظرك.</p></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+/* particle field: calm above the waterline, dense below; reacts to depth and pointer */
+const cv=document.getElementById('field'),cx=cv.getContext('2d');let W,H,P=[],mx=-999,my=-999,depth=0;
+function size(){const d=Math.min(devicePixelRatio||1,2);W=cv.width=innerWidth*d;H=cv.height=innerHeight*d;cx.setTransform(d,0,0,d,0,0)}
+size();addEventListener('resize',size);
+for(let i=0;i<110;i++)P.push({x:Math.random(),y:Math.random(),r:Math.random()*1.6+.4,v:Math.random()*.0004+.0001,p:Math.random()*6});
+addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY});
+(function draw(t){cx.clearRect(0,0,innerWidth,innerHeight);
+ for(const p of P){p.y-=p.v*(1+depth*3);if(p.y<0)p.y=1;
+  const x=p.x*innerWidth+Math.sin(t*.0003+p.p)*20*(1+depth*2),y=p.y*innerHeight;
+  const dx=x-mx,dy=y-my,d=Math.hypot(dx,dy),push=d<140?(140-d)/140*18:0;
+  cx.globalAlpha=.15+.5*depth*Math.abs(Math.sin(t*.001+p.p));
+  cx.fillStyle=depth>.5?'#3d8a96':'#ebe6d8';
+  cx.beginPath();cx.arc(x+dx/d*push||x,y+dy/d*push||y,p.r*(1+depth),0,7);cx.fill()}
+ if(!RM)requestAnimationFrame(draw)})(0);
+
+/* hero: character split rising from the waterline */
+const title=document.getElementById('title');const words=title.textContent.split(' ');title.textContent='';
+words.forEach(w=>{const s=document.createElement('span');s.className='w';s.setAttribute('aria-hidden','true');
+ [...w].forEach(ch=>{const c=document.createElement('span');c.className='c';c.textContent=ch;s.appendChild(c)});title.appendChild(s)});
+if(!RM){
+ gsap.set('.hero .c',{yPercent:120,rotate:6});
+ const tl=gsap.timeline({defaults:{ease:'expo.out'}});
+ tl.from('.water',{scaleX:0,duration:1.6,ease:'power4.inOut'})
+   .to('.hero .c',{yPercent:0,rotate:0,duration:1.5,stagger:.06},'-=.8')
+   .from('#sub',{opacity:0,y:20,duration:1.2},'-=.7')
+   .from('.below',{opacity:0,duration:2},'-=1.5');
+ gsap.to('.hero .in',{yPercent:-18,opacity:0,scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+ gsap.to('.below',{scaleY:2.4,transformOrigin:'top',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+ /* line-wise reveal for text */
+ gsap.utils.toArray('.rv').forEach(el=>{
+  gsap.from(el,{opacity:0,y:40,filter:'blur(8px)',duration:1.2,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%'}})});
+ gsap.utils.toArray('.s h2').forEach(h=>gsap.from(h,{letterSpacing:'.2em',duration:1.6,ease:'expo.out',scrollTrigger:{trigger:h,start:'top 90%'}}));
+}
+
+/* depth gauge and background colour descent */
+const dEl=document.getElementById('depth');
+ScrollTrigger.create({trigger:document.body,start:'top top',end:'bottom bottom',onUpdate:s=>{
+ depth=s.progress;const m=Math.round(s.progress*3800);
+ dEl.textContent=(s.progress<.04?'السطح':s.progress<.5?'ما قبل الشعور':'اللاشعور')+' · '+m.toLocaleString('ar-EG')+' م';
+ gsap.set('.gauge i',{height:s.progress*100+'%'});gsap.set(dEl,{top:s.progress*100+'%'});
+ document.body.style.background='color-mix(in srgb,#070a14 '+(100-s.progress*35)+'%,#0e1a33)'}});
+
+/* pinned iceberg: layers cross-fade while the water line and tip react */
+const L=gsap.utils.toArray('.layer');
+if(!RM){
+ gsap.set(['#tip','#mid','#deep'],{opacity:.15});
+ const it=gsap.timeline({scrollTrigger:{trigger:'#berg',start:'top top',end:'+=2400',scrub:1,pin:true}});
+ L.forEach((l,i)=>{
+  it.to(l,{opacity:1,y:0,duration:1},i*2).fromTo(l.querySelector('h2'),{x:80,letterSpacing:'.3em'},{x:0,letterSpacing:'0em',duration:1},i*2)
+    .to(['#tip','#mid','#deep'][i],{opacity:1,duration:1},i*2);
+  if(i<2)it.to(l,{opacity:0,y:-40,duration:1},i*2+1.6)});
+ it.fromTo('#wl',{attr:{x1:200,x2:200}},{attr:{x1:0,x2:400},duration:1},0)
+   .to('svg',{rotate:-2,transformOrigin:'50% 30%',duration:6,ease:'none'},0);
+}else{L.forEach(l=>l.style.cssText='position:static;opacity:1;margin-bottom:2rem')}
+
+/* pinned horizontal timeline, RTL aware */
+const tr=document.querySelector('.track');
+if(!RM&&innerWidth>0){
+ const dist=()=>tr.offsetWidth-innerWidth;
+ gsap.to(tr,{x:()=>dist(),ease:'none',scrollTrigger:{trigger:'#hz',start:'top top',end:()=>'+='+dist(),pin:true,scrub:1,invalidateOnRefresh:true}});
+ gsap.utils.toArray('.card').forEach(c=>gsap.from(c,{rotateY:-35,scale:.86,opacity:.2,transformPerspective:900,ease:'none',
+  scrollTrigger:{trigger:c,containerAnimation:gsap.getTweensOf(tr)[0],start:'right 100%',end:'right 55%',scrub:true}}));
+}else{tr.style.cssText='position:static;flex-wrap:wrap;width:auto;padding:8vh 7vw';document.getElementById('hz').style.cssText='height:auto;overflow:visible'}
+
+/* lens: pointer reveals the hidden reading */
+const lens=document.getElementById('lens');
+const tx=lens.querySelector('.txt');
+function mv(e){const r=tx.getBoundingClientRect(),p=e.touches?e.touches[0]:e;
+ gsap.to(tx,{'--x':(p.clientX-r.left)+'px','--y':(p.clientY-r.top)+'px',duration:.35,ease:'power3.out',overwrite:'auto'})}
+lens.addEventListener('pointermove',mv);lens.addEventListener('touchmove',mv,{passive:true});
+addEventListener('load',()=>ScrollTrigger.refresh());
+</script>
+</body>
+</html>
